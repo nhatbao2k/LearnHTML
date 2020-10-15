@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="formSub">
+      <input type="text" placeholder="Enter add item" id="txt" />
+      <button type="submit" id="btn">ADD</button>
+      <ul id="list_ul"></ul>
+    </form>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      var task = document.getElementById("list_ul");
+      var form = document.getElementById("formSub");
+      var url = "http://localhost:3000/todos";
+
+      axios.get(url).then(function (res) {
+        var items = res.data;
+        show(items);
+      });
+      form.addEventListener("submit", addValue);
+
+      function show(items) {
+        var content = items.map((item) => "<li>" + item.content + "</li>");
+        task.innerHTML = content.join("");
+      }
+
+      function addValue(e) {
+        e.preventDefault();
+        var $inputElement = document.getElementById("txt");
+        var value = $inputElement.value;
+        axios
+          .post(url, {
+            content: value,
+          })
+          .then((data) => {
+            const li = document.createElement("li");
+            li.innerHTML = data.content;
+            task.appendChild(li);
+          });
+        // fetch(url, {
+        //   method: "POST",
+        //   body: {
+        //     content: value,
+        //   },
+        // }).then((data) => {
+        //   console.log(data);
+        // });
+        $inputElement.value = "";
+      }
+    </script>
+  </body>
+</html>

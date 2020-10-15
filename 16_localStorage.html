@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <input type="text" placeholder="Add data" id="txt" />
+      <button id="click">ADD</button>
+    </div>
+    <div>
+      <ul id="list"></ul>
+    </div>
+
+    <script type="text/javascript">
+      var storagekey = "listManga";
+      var dataString = localStorage.getItem(storagekey);
+      var listManga;
+      if (dataString) {
+        listManga = JSON.parse(dataString);
+      } else {
+        listManga = [];
+      }
+
+      var btn = document.getElementById("click");
+      btn.addEventListener("click", addValue);
+
+      function addValue() {
+        var value_txt = document.getElementById("txt");
+        listManga.push(value_txt.value);
+        show();
+        value_txt.value = "";
+        localStorage.setItem(storagekey, JSON.stringify(listManga));
+      }
+      function show() {
+        var content = listManga.map((item) => "<li>" + item + "</li>");
+        var task = document.getElementById("list");
+        task.innerHTML = content.join("");
+      }
+
+      show();
+    </script>
+  </body>
+</html>

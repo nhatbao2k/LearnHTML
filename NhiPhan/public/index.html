@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Binary Decimal Hexadecimal</title>
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+</head>
+<style>
+  header{
+    overflow: hidden;
+    background-color:#006666;
+    font-size: 50px;
+    text-align: center;
+    height: 50px;
+    padding: 20px 10px;
+  }
+  footer{
+    background-color: lightgray;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 3px;
+    position: fixed;
+    font-style: normal;
+  }
+  textarea{
+    resize: none;
+    height: 50px;
+    width: 330px;
+    text-align: right;
+    background-color: white;
+  }
+  body{
+    background-color:linen;
+    align-content: center;
+  }
+  button{
+    background-color:#4CAF50;
+    font-size: 25px;
+    padding: 10px 24px;
+    border-radius: 12px;
+    border: 5px red;
+    transition-duration: 0.5s;
+    box-shadow: 0 9px #999;
+  }
+  button:hover{
+    background-color:limegreen;
+    color: lightgreen;
+  }
+  button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+  }
+  
+</style>
+<body>
+  <header>
+    <span style="color: white; font-style: normal;">Convert Binary, Decimal, Hexadecimal</span>
+  </header>
+  <center>
+    <table>
+      <tr>
+        <td>
+          <select name="Math" id="selectOption">
+            <option>------------------</option>
+            <option value="1">Binary</option>
+            <option value="2">Decimal</option>
+            <option value="3">Hexadecimal</option>
+          </select>
+        </td>
+        <td>
+          <input type="text" placeholder="Enter number" id="txt" style="width: 330px;">
+        </td>
+        <td>
+          <button id="btn" style="color: white;">Convert</button>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label id="lb1"></label>
+        </td>
+        <td>
+          <textarea name="anwser1" id="anwser1" cols="30" rows="10" disabled></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label id="lb2"></label>
+        </td>
+        <td>
+          <textarea name="anwser2" id="anwser2" cols="30" rows="10" disabled></textarea>
+        </td>
+      </tr>
+    </table>
+    
+  </center>
+  
+  <script>
+    var cbb = document.getElementById('selectOption');
+    var lb1 = document.getElementById('lb1');
+    var lb2 = document.getElementById('lb2');
+    var btn = document.getElementById('btn');
+    var inputTxt = document.getElementById('txt');
+    var anwser1 = document.getElementById('anwser1');
+    var anwser2 = document.getElementById('anwser2');
+    cbb.addEventListener('change', changeOption);
+    btn.addEventListener('click', btnConvert);
+    
+    function changeOption()
+    {
+      var value = cbb.value;
+      if(value == 1)
+      {
+        lb1.innerHTML = 'Decimal';
+        lb2.innerHTML = 'Hexadecimal';
+      }
+      else if(value == 2)
+      {
+        lb1.innerHTML = 'Binary';
+        lb2.innerHTML = 'Hexadecimal';
+      }
+      else if(value == 3){
+        lb1.innerHTML = 'Binary';
+        lb2.innerHTML = 'Decimal';
+      }
+      else
+      {
+        lb1.innerHTML='';
+        lb2.innerHTML='';
+      }
+    }
+
+    function checkNumber(value) {
+      if ( value % 1 == 0 ){
+        return true;
+      }
+      return false;
+    }
+
+    function checkBinary(input){
+      var check;
+      for(var i =0; i<input.length; i++)
+      {
+        if(parseInt(input[i]) == 0 || parseInt(input[i]) == 1)
+        {
+          check = true;
+        }
+        else{
+          check = false;
+          break;
+        }
+      }
+      return check;
+    }
+
+    function checkNumber(number){
+      if(isNaN(number)){
+        return false;
+      }
+      return true;
+    }
+
+    function checkChar(char){
+      for(var i = 65; i < 71; i++){
+        if(char.charCodeAt() == i){
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function checkHex(input){
+      var check;
+      for(var i = 0; i < input.length; i++){
+        if(checkNumber(input[i]) || checkChar(input[i])){
+          check = true;
+        }
+        else{
+          check = false;
+          break;
+        }
+      }
+      return check;
+    }
+
+    function btnConvert()
+    {
+      var value = cbb.value;
+      var result1,result2;
+      if(value == 2)
+      {
+        if(checkNumber(inputTxt.value)){
+          result1 = D_Binary(parseInt(inputTxt.value));
+          result2 = Decimal_HEX(parseInt(inputTxt.value));
+          anwser1.innerHTML = result1;
+          anwser2.innerHTML = result2;
+        }
+        else{
+          alert('Chỉ được nhập số. OK :))');
+          inputTxt.value='';
+        }
+
+      }
+      else if(value == 3)
+      {
+        if(checkHex(inputTxt.value)){
+          result1 = HEX_Binary(inputTxt.value);
+          result2 = HEX_D(inputTxt.value);
+          anwser1.innerHTML = result1;
+          anwser2.innerHTML = result2;
+        }
+        else{
+          alert('Chi A, B , C, D, E, F hop le');
+          inputTxt.value='';
+        }
+        
+      }
+      else if(value == 1){
+        if(checkNumber(inputTxt.value)){
+          if(checkBinary(inputTxt.value))
+          {
+            result1 = Binary_D(inputTxt.value);
+            result2 = Binary_HEX(inputTxt.value);
+            anwser1.innerHTML = result1;
+            anwser2.innerHTML = result2;
+          }
+          else{
+            alert('Số nhị phân chỉ được nhập dãy số: 1 và 0');
+            inputTxt.value='';
+          }
+        }
+        else{
+          alert('Chỉ được nhập số. OK :))');
+          inputTxt.value='';
+  
+        }
+      }
+
+      else{}
+    }
+
+    // convert decimal to binary
+    function D_Binary(decimal){
+      return decimal.toString(2);
+    }
+    // console.log(D_Binary(5));
+    // convert hex to binary
+    function HEX_Binary(hex){
+      return parseInt(hex,16).toString(2);
+    }
+    // console.log(HEX_Binary('16'));
+    // convert hex to decimal
+    function HEX_D(hex){
+      return parseInt(hex,16);
+    }
+    // console.log(HEX_D('a'));
+    // convert binary to decimal
+    function Binary_D(binary){
+      return parseInt(binary,2);
+    }
+    // console.log(Binary_D('0101'));
+    // convert binary to hex
+    function Binary_HEX(binary){
+      return parseInt(binary,2).toString(16).toLocaleUpperCase();
+    }
+    //console.log(Binary_HEX('1111'));
+    // convert Decimal to hexadecimal 
+    function Decimal_HEX(decimal)
+    {
+      return decimal.toString(16).toLocaleUpperCase();
+    }
+    //console.log(Decimal_HEX(16));
+  </script>
+  <footer>© Copyright <a href="https://www.facebook.com/profile.php?id=100029875350129"><i class="fab fa-facebook"></i></a></footer>
+</body>
+</html>

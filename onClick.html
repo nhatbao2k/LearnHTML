@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" id="txt_name" />
+    <button onclick="addItem()">Add</button><br />
+    <h2>Name commic:</h2>
+    <br />
+    <ul id="list"></ul>
+    <script type="text/javascript">
+      var comic = ["Naruto", "Naruto Shippuden", "One Piece", "One Puch Man"];
+
+      function addItem() {
+        var valueInput = document.getElementById("txt_name");
+        comic.push(valueInput.value);
+        show();
+        valueInput.value = "";
+      }
+
+      function show() {
+        var listHTML = document.getElementById("list");
+        var content = comic.map(function (item) {
+          return "<li>" + item + "<li>";
+        });
+        listHTML.innerHTML = content.join("");
+      }
+
+      show();
+    </script>
+  </body>
+</html>

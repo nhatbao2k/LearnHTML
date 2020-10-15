@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text" placeholder="Enter data" id="txt">
+  <button id="btn">ADD</button>
+  <ul id="list"></ul>
+  <script>
+    var task = document.getElementById('list');
+    var btn = document.getElementById('btn');
+
+    var list;
+    var storegaKey = 'list';
+    var dataString = localStorage.getItem(storegaKey);
+    if(dataString){
+      list = JSON.parse(dataString);
+    }else{
+      list = [];
+    }
+
+    function render(data){
+      var content = data.map(function(item, i){
+        return '<li>'+item+'<button data-id = "'+ i +'">Delete</button></li>';
+      })
+
+      task.innerHTML = content.join('');
+    }
+
+    btn.addEventListener('click', addItem);
+    function addItem(){
+      var inputTxt = document.getElementById('txt');
+      var value = inputTxt.value;
+      list.push(value);
+      render(list);
+      localStorage.setItem(storegaKey, JSON.stringify(list));
+      inputTxt.value='';
+    }
+    render(list);
+    
+    task.addEventListener('click', deleteItemList);
+    function deleteItemList(event){
+      var button = event.target;
+      var i = parseInt(button.dataset.id);
+      list.splice(i,1);
+      render(list);
+      localStorage.setItem(storegaKey, JSON.stringify(list));
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <span> Age: </span>
+    <select id="option">
+      <option>18</option>
+      <option>19</option>
+      <option>20</option>
+    </select>
+
+    <table id="table"></table>
+    <script type="text/javascript">
+      var list = [
+        { name: "Bao", age: 20 },
+        { name: "Nam", age: 18 },
+        { name: "Ha", age: 19 },
+      ];
+
+      var change = document.getElementById("option");
+      change.addEventListener("change", changeOption);
+
+      function changeOption() {
+        var value = parseInt(change.value);
+
+        var search = list.filter(function (item) {
+          return item.age == value;
+        });
+
+        show(search);
+      }
+      function show(list) {
+        var task = document.getElementById("table");
+        var content = list.map(function (item) {
+          return "<tr><td>" + item.name + "</td><td>" + item.age + "</td></tr>";
+        });
+
+        task.innerHTML = content.join("");
+      }
+
+      show(list);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" placeholder="Enter add item" id="txt" />
+    <button id="btn">ADD</button>
+    <ul id="list_ul"></ul>
+    <script>
+      var list;
+      var storageKey = "list";
+      var dataString = localStorage.getItem(storageKey);
+      var input = document.getElementById("txt");
+
+      if (dataString) {
+        list = JSON.parse(dataString);
+      } else {
+        list = [];
+      }
+
+      input.value = sessionStorage.getItem("draft");
+      input.addEventListener("change", updateSessionStorage);
+
+      function updateSessionStorage() {
+        sessionStorage.setItem("draft", input.value);
+      }
+
+      var task = document.getElementById("list_ul");
+      var btn = document.getElementById("btn");
+      btn.addEventListener("click", addBtn);
+
+      function show() {
+        var content = list.map((item) => "<li>" + item + "</li>");
+        task.innerHTML = content.join("");
+      }
+
+      function addBtn() {
+        list.push(input.value);
+        show();
+        input.value = "";
+        localStorage.setItem(storageKey, JSON.stringify(list));
+      }
+
+      show();
+    </script>
+  </body>
+</html>
